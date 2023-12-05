@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 token = os.getenv("DISCORD_TOKEN")
-
+role_id = int(os.getenv("MEMBER_ROLE_ID"))
 
 
 description = '''A bot to whitelist users on a minecraft server'''
@@ -41,6 +41,12 @@ async def ping(interaction: discord.Interaction):
 async def whitelist(interaction: discord.Interaction, username: str):
     print(f"Whitelist {username} by user {interaction.user.display_name}")
     response = users.whitelist(interaction.user.id, username)
+
+    role = interaction.guild.get_role(role_id)
+    print(role)
+    if response != "Username already in use by another player!" and role not in interaction.user.roles:
+        await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
+
     await interaction.response.send_message(response, ephemeral=True)
     
 
@@ -48,6 +54,10 @@ async def whitelist(interaction: discord.Interaction, username: str):
 async def unwhitelist(interaction: discord.Interaction):
     print(f"Unwhitelist by user {interaction.user.display_name}")
     print(interaction.user.id)
+
+    role = interaction.guild.get_role(role_id)
+    if role in interaction.user.roles:
+        await interaction.user.remove_roles(role, reason="Unwhitelisted on minecraft server")
 
     response = users.unwhitelist(interaction.user.id)
     await interaction.response.send_message(response, ephemeral=True)
