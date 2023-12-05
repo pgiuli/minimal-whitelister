@@ -81,23 +81,23 @@ def user_exists(discord_id):
 
 #Flow: Check if username is in database, if it is, check if it belongs to the discord user. If it does, add it to the whitelist. If it doesn't, return an error. If it isn't in the database, add it to the database and whitelist it.
 def whitelist(discord_id, minecraft_username):
-    print(f"discord_id: {discord_id}, minecraft_username: {minecraft_username}")
+    #print(f"discord_id: {discord_id}, minecraft_username: {minecraft_username}")
     #Is there a user with this minecraft username?
     if get_discord_id(minecraft_username) != None:
         #If another player is already whitelisted with that username, quit
         #Get the user's discord ID
         username_owner_id = get_discord_id(minecraft_username)
-        print(f"username_owner_id: {username_owner_id}")
+        #print(f"username_owner_id: {username_owner_id}")
         if str(username_owner_id) != str(discord_id):
             return "Username already in use by another player!"
     #Is there a user with this discord ID?
     if user_exists(discord_id):
         #Get the user's minecraft username
         old_username = get_minecraft_username(discord_id)
-        print(f"old_username: {old_username}")
+        #print(f"old_username: {old_username}")
         #If the user's minecraft username is different, remove the old one from the whitelist
         if str(old_username) != str(minecraft_username):
-            print("ITS DIFERENT")
+            #print("ITS DIFERENT")
             remove_user(discord_id)
             add_user(discord_id, minecraft_username)
             pterodactyl.remove_whitelist(old_username)
