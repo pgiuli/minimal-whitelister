@@ -47,7 +47,7 @@ async def whitelist(interaction: discord.Interaction, username: str):
     if response != "Username already in use by another player!":
         if role not in interaction.user.roles:
             await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
-        interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
+        await interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
 
     await interaction.response.send_message(response, ephemeral=True)
     
