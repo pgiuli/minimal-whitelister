@@ -44,8 +44,10 @@ async def whitelist(interaction: discord.Interaction, username: str):
 
     role = interaction.guild.get_role(role_id)
     print(role)
-    if response != "Username already in use by another player!" and role not in interaction.user.roles:
-        await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
+    if response != "Username already in use by another player!":
+        if role not in interaction.user.roles:
+            await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
+        interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
 
     await interaction.response.send_message(response, ephemeral=True)
     
@@ -58,6 +60,7 @@ async def unwhitelist(interaction: discord.Interaction):
     role = interaction.guild.get_role(role_id)
     if role in interaction.user.roles:
         await interaction.user.remove_roles(role, reason="Unwhitelisted on minecraft server")
+        await interaction.user.edit(nick=None, reason="Unwhitelisted on minecraft server")
 
     response = users.unwhitelist(interaction.user.id)
     await interaction.response.send_message(response, ephemeral=True)
