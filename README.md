@@ -1,6 +1,6 @@
 # Minimal-Whitelister
 
-Pretty barebones, but functional discord bot to whitelist members of a discord server into a Pterodactyl based Minecraft instance.
+Pretty barebones, but functional discord bot to whitelist members of a discord server into a Pterodactyl-based Minecraft instance.
 
 ## Features
 
