@@ -24,3 +24,12 @@ Pretty barebones, but functional discord bot to whitelist members of a discord s
 ## Contributing
 
 Please open an issue to discuss potential changes/additions.
+
+## Setting up with a Python Virtual Environment (venv)
+
+1. Make sure you have Python virtual environments installed on your system. Run `pip install venv`
+2. Create a virtual environment. `python3 -m venv bot-env`
+3. Activate the environment on your terminal. `source bot-env/bin/activate` (You can leave this environment running `deactivate` on your shell.)
+4. Install the packages. `pip install -r requirements.txt`
+5. Set up your environment variables in a `.env` file following the `skeleton.env`
+6. Run `python main.py` to start the bot.
