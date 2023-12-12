@@ -12,6 +12,7 @@ load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 role_id = int(os.getenv("MEMBER_ROLE_ID"))
 
+ephemeral = True
 
 description = '''A bot to whitelist users on a minecraft server'''
 
@@ -35,7 +36,7 @@ async def on_ready():
 
 @bot.tree.command(name="ping")
 async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!", ephemeral=False)
+    await interaction.response.send_message("Pong!", ephemeral=ephemeral)
 
 @bot.tree.command(name="whitelist")
 async def whitelist(interaction: discord.Interaction, username: str):
@@ -50,10 +51,10 @@ async def whitelist(interaction: discord.Interaction, username: str):
                 await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
             await interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
 
-        await interaction.response.send_message(response, ephemeral=False)
+        await interaction.response.send_message(response, ephemeral=ephemeral)
     except Exception as e:
         print(e)
-        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=False)
+        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=ephemeral)
 
 @bot.tree.command(name="unwhitelist")
 async def unwhitelist(interaction: discord.Interaction):
@@ -68,16 +69,16 @@ async def unwhitelist(interaction: discord.Interaction):
             await interaction.user.edit(nick=None, reason="Unwhitelisted on minecraft server")
 
         response = users.unwhitelist(interaction.user.id)
-        await interaction.response.send_message(response, ephemeral=False)
+        await interaction.response.send_message(response, ephemeral=ephemeral)
     except Exception as e:
         print(e)
-        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=False)
+        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=ephemeral)
 
 @bot.tree.command(name="info")
 async def info(interaction: discord.Interaction):
     print(f"Info by user {interaction.user.display_name}")
     response = users.info(interaction.user.id)
-    await interaction.response.send_message(response, ephemeral=False)
+    await interaction.response.send_message(response, ephemeral=ephemeral)
 
 
 bot.run(token)
