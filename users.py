@@ -127,5 +127,13 @@ def unwhitelist(discord_id):
     else:
         return "You are not whitelisted! use /whitelist <minecraft username> to whitelist yourself."
 
+def info(discord_id):
+    #Is there a user with this discord ID?
+    if user_exists(discord_id):
+        #Get the user's minecraft username
+        minecraft_username = get_minecraft_username(discord_id)
+        return f"You are whitelisted as {minecraft_username}"
+    else:
+        return "You are not whitelisted! use /whitelist <minecraft username> to whitelist yourself."
 
 create_database()

@@ -35,7 +35,7 @@ async def on_ready():
 
 @bot.tree.command(name="ping")
 async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!", ephemeral=True)
+    await interaction.response.send_message("Pong!", ephemeral=False)
 
 @bot.tree.command(name="whitelist")
 async def whitelist(interaction: discord.Interaction, username: str):
@@ -44,13 +44,16 @@ async def whitelist(interaction: discord.Interaction, username: str):
 
     role = interaction.guild.get_role(role_id)
     print(role)
-    if response != "Username already in use by another player!":
-        if role not in interaction.user.roles:
-            await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
-        await interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
+    try:
+        if response != "Username already in use by another player!":
+            if role not in interaction.user.roles:
+                await interaction.user.add_roles(role, reason="Whitelisted on minecraft server")
+            await interaction.user.edit(nick=username, reason="Whitelisted on minecraft server")
 
-    await interaction.response.send_message(response, ephemeral=True)
-    
+        await interaction.response.send_message(response, ephemeral=False)
+    except Exception as e:
+        print(e)
+        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=False)
 
 @bot.tree.command(name="unwhitelist")
 async def unwhitelist(interaction: discord.Interaction):
@@ -58,12 +61,23 @@ async def unwhitelist(interaction: discord.Interaction):
     print(interaction.user.id)
 
     role = interaction.guild.get_role(role_id)
-    if role in interaction.user.roles:
-        await interaction.user.remove_roles(role, reason="Unwhitelisted on minecraft server")
-        await interaction.user.edit(nick=None, reason="Unwhitelisted on minecraft server")
+    try:
+        if role in interaction.user.roles:
+        
+            await interaction.user.remove_roles(role, reason="Unwhitelisted on minecraft server")
+            await interaction.user.edit(nick=None, reason="Unwhitelisted on minecraft server")
 
-    response = users.unwhitelist(interaction.user.id)
-    await interaction.response.send_message(response, ephemeral=True)
+        response = users.unwhitelist(interaction.user.id)
+        await interaction.response.send_message(response, ephemeral=False)
+    except Exception as e:
+        print(e)
+        await interaction.response.send_message("Ho sento bro, el bot s'ha cagat a sobre... envia un missatge a @onespork", ephemeral=False)
+
+@bot.tree.command(name="info")
+async def info(interaction: discord.Interaction):
+    print(f"Info by user {interaction.user.display_name}")
+    response = users.info(interaction.user.id)
+    await interaction.response.send_message(response, ephemeral=False)
 
 
 bot.run(token)
