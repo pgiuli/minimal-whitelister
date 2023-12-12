@@ -44,7 +44,6 @@ async def whitelist(interaction: discord.Interaction, username: str):
     response = users.whitelist(interaction.user.id, username)
 
     role = interaction.guild.get_role(role_id)
-    print(role)
     try:
         if response != "Username already in use by another player!":
             if role not in interaction.user.roles:
